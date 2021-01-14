@@ -22,6 +22,7 @@ class MCMetrix{
   MCMetrix(int inN,int inMineN);
   void setLandMine(int inMineN);
   void PrintTo(std::ostream& );
+  void OriginPrint(std::ostream& );
   int getItemInMetrix(int row, int col);
   void setItemInMetrix(int row, int col , int Item);
   int getSize();

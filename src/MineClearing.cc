@@ -63,15 +63,41 @@ void MCMetrix::setItemInMetrix(int row,int col, int Item){
 
 // Print MCMetrix to an ostream
 void MCMetrix::PrintTo(std::ostream& printOut){
+  int rowCount = 0;
+  // print col number
+  printOut << std::cout.width(2) << 0 << " ";
+  for(int colNumber=0 ; colNumber < realMCMetrix.size() ;++colNumber){
+    printOut << std::cout.width(2) << colNumber << " ";
+  }
+  printOut << std::endl;
+  for(int colNumber=0 ; colNumber <= realMCMetrix.size() ;++colNumber){
+    printOut <<"----";
+  }
+  printOut << std::endl;
   for ( auto row : realMCMetrix){
-    for(auto colInRow : row){
-      if(colInRow == MC_M || colInRow == MC_E){
-        printOut << "?" << " ";
-      }else if (colInRow == MC_X){
+    // print mextrix
+    for(int colInRow=0 ; colInRow < realMCMetrix.size() ; ++colInRow ){
+      if(colInRow==0){
+        printOut << std::cout.width(2)  << rowCount << "|";
+      }
+      if(row[colInRow] == MC_M || row[colInRow] == MC_E){
+        printOut << std::cout.width(2) << "?" << " ";
+      }else if (row[colInRow] == MC_X){
         printOut << "X" << " ";
       }else{
-        printOut << colInRow << " " ;
+        printOut << std::cout.width(2) << row[colInRow] << " " ;
       }
+    }
+    ++rowCount;
+    printOut << std::endl;
+  }
+}
+
+// print origin
+void MCMetrix::OriginPrint(std::ostream& printOut){
+  for(auto row : realMCMetrix){
+    for( auto colInRow : row ){
+      printOut << colInRow << " ";
     }
     printOut << std::endl;
   }
@@ -125,6 +151,10 @@ std::vector<KeyV> MineC::realClick(KeyV toClick){
   return newToClick;
 }
 
+void MineC::reset(){
+  MC = MCMetrix(10,10);
+}
+
 bool MineC::valid(int row, int col){
   if( row >= 0 && row < MC.getSize()){
     if( col >= 0 && col < MC.getSize()){
@@ -170,23 +200,27 @@ std::string ClickMine::GetMsg() const{
 }
 
 void MineC::run(){
-  std::string input("");
-  int row = 0;
-  int col = 0;
-  while(input != "#"){
+  std::string row("");
+  std::string col("");
+  while(row != "#"){
     PrintTo(std::cout);
+    // MC.OriginPrint(std::cout);
     std::cout << "input click row and col (like 1 2)\nor input # to exit" << std::endl;
-    std::cin >> input ;
-    if(input != "#"){
-      std::istringstream line(input);
-      line >> row >> col;
+    std::cin >> row >> col;
+    if(row != "#"){
       try{
-        click(row,col);
+        click(std::stoi(row),std::stoi(col));
       }catch(MCExceptions::outOfMetrixRange e){
         std::cout << e.what() << std::endl;
       }catch(ClickMine CM){
         std::cout << CM.GetMsg() << std::endl;
-        exit(1);
+        std::string question("");
+        std::cout << "Do you want start again?\nY for yes \nor random words to exit" << std::endl;
+        std::cin >> question;
+        if(question!="Y"){
+          throw CM;
+        }
+        reset();
       }
     }
   }
