@@ -83,7 +83,7 @@ void MCMetrix::PrintTo(std::ostream& printOut){
       if(row[colInRow] == MC_M || row[colInRow] == MC_E){
         printOut << std::cout.width(2) << "?" << " ";
       }else if (row[colInRow] == MC_X){
-        printOut << "X" << " ";
+        printOut << std::cout.width(2) << "X" << " ";
       }else{
         printOut << std::cout.width(2) << row[colInRow] << " " ;
       }
@@ -206,13 +206,15 @@ void MineC::run(){
     PrintTo(std::cout);
     // MC.OriginPrint(std::cout);
     std::cout << "input click row and col (like 1 2)\nor input # to exit" << std::endl;
-    std::cin >> row >> col;
+    std::cin >> row ;
     if(row != "#"){
+      std::cin >> col;
       try{
         click(std::stoi(row),std::stoi(col));
       }catch(MCExceptions::outOfMetrixRange e){
         std::cout << e.what() << std::endl;
       }catch(ClickMine CM){
+        PrintTo(std::cout);
         std::cout << CM.GetMsg() << std::endl;
         std::string question("");
         std::cout << "Do you want start again?\nY for yes \nor random words to exit" << std::endl;
