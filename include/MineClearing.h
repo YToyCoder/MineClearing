@@ -1,5 +1,5 @@
 # if !defined(_MINECLEARING_H)
-# define _MINECLEARING_
+# define _MINECLEARING_H
 # include<iostream>
 # include<vector>
 # include<cstdlib>
