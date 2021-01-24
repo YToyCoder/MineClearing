@@ -16,13 +16,15 @@ int Operator::getMineN() const {
 }
 
 void Operator::run(){
-  std::cout << ">>Welcome to MineClearing<<" << std::endl;
-  std::cout << "<operations>" << std::endl;
-  admin_selection_out(std::cout);
-  std::cout << "enter your selection" << std::endl;
-  int selection;
-  std::cin >> selection;
-  operate(str_selection_to_opt(selection));
+  while(true){
+    std::cout << ">>Welcome to MineClearing<<" << std::endl;
+    std::cout << "<operations>" << std::endl;
+    admin_selection_out(std::cout);
+    std::cout << "enter your selection" << std::endl;
+    int selection;
+    std::cin >> selection;
+    operate(str_selection_to_opt(selection));
+  }
 }
 
 void Operator::operate(operation_type op){
