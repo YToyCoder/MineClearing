@@ -23,20 +23,25 @@ void Operator::run(){
     std::cout << "enter your selection" << std::endl;
     int selection;
     std::cin >> selection;
-    operate(str_selection_to_opt(selection));
+    if (!operate(str_selection_to_opt(selection))){
+      break;
+    }
   }
 }
 
-void Operator::operate(operation_type op){
+bool Operator::operate(operation_type op){
   switch(op){
+    case operation_type::exit :
+      return false;
     case operation_type::play :
       MC.run();
-      break;
+      return true;
     case operation_type::change_mineC_setting :
       change_MineC_setting();
-      break;
+      return true;
     case operation_type::not_op:
       std::cout << "it's not an option!" << std::endl;
+      return true;
   }
 }
 
@@ -70,12 +75,15 @@ void Operator::change_MineC_setting(){
 }
 
 void Operator::admin_selection_out(std::ostream& PrintOut){
+  std::cout << "0 exit" << std::endl;
   std::cout << "1 play" << std::endl;
   std::cout << "2 change MineC setting " << std::endl;
 }
 Operator::operation_type Operator::str_selection_to_opt(int selection){
   switch (selection)
   {
+  case 0:
+    return operation_type::exit;
   case 1:
     return operation_type::play;
   case 2:

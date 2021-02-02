@@ -5,14 +5,14 @@ namespace MineClearing
 {
 class Operator{
   public:
-  enum operation_type{play,change_mineC_setting,not_op};
+  enum operation_type{exit,play,change_mineC_setting,not_op};
   Operator():n(10),MC(10,10),MineN(10){}
   void setn(int n_);
   int getn() const ;
   void setMineN(int MineN_);
   int getMineN() const ;
   void run();
-  void operate(operation_type op);
+  bool operate(operation_type op);
   void change_MineC_setting();
   void admin_selection_out(std::ostream& PrintOut);
   operation_type str_selection_to_opt(int selection);
