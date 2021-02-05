@@ -26,6 +26,7 @@ class MCMetrix{
   int getItemInMetrix(int row, int col);
   void setItemInMetrix(int row, int col , int Item);
   int getSize();
+  int getMineNumber() const;
   private:
   std::vector<std::vector<int> > realMCMetrix;
   int n;
@@ -51,6 +52,7 @@ class MineC{
   void PrintTo(std::ostream& PrintOut);
   void run();
   private:
+  int remainNumber;
   MCMetrix MC;
 };
 class ClickMine{

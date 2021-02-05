@@ -34,7 +34,10 @@ bool Operator::operate(operation_type op){
     case operation_type::exit :
       return false;
     case operation_type::play :
-      MC.run();
+      try{
+        MC.run();
+      }catch(std::string win){
+      }
       return true;
     case operation_type::change_mineC_setting :
       change_MineC_setting();

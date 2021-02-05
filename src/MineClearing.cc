@@ -102,13 +102,16 @@ void MCMetrix::OriginPrint(std::ostream& printOut){
     printOut << std::endl;
   }
 }
+int MCMetrix::getMineNumber() const{
+  return MineN;
+}
+MineC::MineC():MC(MCMetrix(10,10)),remainNumber(10*10){}
 
-MineC::MineC():MC(MCMetrix(10,10)){}
-
-MineC::MineC(int inN , int inMineN): MC(MCMetrix(inN,inMineN)){}
+MineC::MineC(int inN , int inMineN): MC(MCMetrix(inN,inMineN)),remainNumber(inN*inN){}
 
 void MineC::setMetrix( int inN,int inMineN){
   MC = MCMetrix(inN,inMineN);
+  remainNumber = inN*inN;
 }
 
 void MineC::click(int row, int col){
@@ -134,6 +137,7 @@ std::vector<KeyV> MineC::realClick(KeyV toClick){
     throw ClickMine();
   }else{
     MC.setItemInMetrix(toClick.row,toClick.col,findNeighborsLandMine(toClick.row,toClick.col));
+    remainNumber -= 1;
     if(MC.getItemInMetrix(toClick.row,toClick.col)==MC_B){
       int minRowNum = toClick.row - 1 >= 0 ? toClick.row - 1: toClick.row;
       int maxRowNum = toClick.row + 1 < MC.getSize() ? toClick.row + 1 : toClick.row;
@@ -147,6 +151,9 @@ std::vector<KeyV> MineC::realClick(KeyV toClick){
         }
       }
     }
+  }
+  if(remainNumber == MC.getMineNumber()){
+    throw std::string("You win!");
   }
   return newToClick;
 }
@@ -223,6 +230,9 @@ void MineC::run(){
           throw CM;
         }
         reset();
+      }catch(std::string win){
+        std::cout << win << std::endl;
+        throw win;
       }
     }
   }
